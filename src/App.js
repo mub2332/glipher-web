@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import s from "./app.module.scss";
+import GetURL from "./components/GetURL/GetURL";
+import Video from "./components/Video/Video";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [videoUrl, setVideoUrl] = useState(null);
+
+    const getVideoId = () => {
+        const parts = videoUrl.split("/");
+        return parts[parts.length - 1].split("?")[0];
+    };
+
+    return (
+        <div className={s.container}>
+            <h1 className={s.header}>Glipher</h1>
+            <GetURL setVideoUrl={setVideoUrl} />
+            {videoUrl && (
+                <Video
+                    setVideoUrl={setVideoUrl}
+                    url={videoUrl}
+                    videoId={getVideoId()}
+                />
+            )}
+        </div>
+    );
 }
 
 export default App;

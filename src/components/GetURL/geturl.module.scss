@@ -1,0 +1,48 @@
+.inputGroup {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+
+    width: 100%;
+
+    margin-top: 6rem;
+
+    input,
+    button {
+        font-size: 2rem;
+        outline: none;
+    }
+
+    input {
+        padding: 2rem;
+        border-radius: 0.5rem;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        border: none;
+        border-bottom: 2px solid transparent;
+        width: 60%;
+        transition: all 0.5s;
+
+        &:focus {
+            border-bottom: 2px solid #ff0000;
+        }
+    }
+
+    button {
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-top: 0.5rem;
+        background-color: #ff0000;
+        color: #fff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border: none;
+        border-bottom: 2px solid #ff0000;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
