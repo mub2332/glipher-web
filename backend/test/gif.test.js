@@ -8,7 +8,7 @@ const mockData = require("./mockData/mock.video.json");
 describe(endpointUrl, () => {
     it("POST " + endpointUrl, async () => {
         const response = await request(app).post(endpointUrl).send(mockData);
-        expect(response.statusCode).toBe(201);
+        expect(response.statusCode).toBe(200);
         expect(response.body.downloadUrl).toBeDefined();
     });
 });
