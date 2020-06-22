@@ -49,6 +49,11 @@
 
 .download {
   width: 20%;
+
+  @media screen and (max-width: 900px) {
+    width: 60%;
+  }
+
   text-transform: uppercase;
   font-weight: 700;
   margin: 2rem;
