@@ -46,3 +46,22 @@
 
   border-bottom: 2px solid rgba(#fff, 0.125);
 }
+
+.download {
+  width: 20%;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 2rem;
+  background-color: #ff0000;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  border-bottom: 2px solid #ff0000;
+  transition: all 0.2s;
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-0.5rem);
+  }
+}
