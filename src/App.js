@@ -83,6 +83,7 @@ function App() {
               aria-labelledby="range-slider"
             />
           </div>
+          <h3 className={s.preview}>GIF Preview</h3>
           <Video
             start={time[0]}
             end={time[1]}
