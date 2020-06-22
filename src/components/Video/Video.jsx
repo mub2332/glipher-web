@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import s from './video.module.scss';
 
-const Video = ({ url, start, end, videoId, setMax }) => {
+const Video = ({ url, start, end, videoId, setMax, setTitle }) => {
   useEffect(() => {
     if (!window['YT']) {
       const tag = document.createElement('script');
@@ -27,7 +27,9 @@ const Video = ({ url, start, end, videoId, setMax }) => {
   };
 
   const onPlayerReady = (event) => {
-    setMax(event.target.getDuration());
+    const max = event.target.getDuration();
+    setMax(max);
+    setTitle(event.target.getVideoData().title);
     loopStart(event);
     event.target.mute();
     event.target.playVideo();
