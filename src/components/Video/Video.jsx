@@ -27,7 +27,8 @@ const Video = ({ url, start, end, videoId, setMax }) => {
   };
 
   const onPlayerReady = (event) => {
-    setMax(event.target.getDuration());
+    const max = event.target.getDuration();
+    setMax(max);
     loopStart(event);
     event.target.mute();
     event.target.playVideo();
