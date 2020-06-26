@@ -17,7 +17,7 @@ function App() {
         return parts[parts.length - 1].split("?")[0];
     };
 
-    const getTimeString = (timeInSeconds) => {
+    const getTimeString = timeInSeconds => {
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = timeInSeconds % 60;
 
@@ -33,7 +33,8 @@ function App() {
 
     const download = () => {
         setLoading(true);
-        const url = "http://glipher.us-east-1.elasticbeanstalk.com/api/gif";
+        const url =
+            "https://a9dqqmewub.execute-api.us-east-1.amazonaws.com/production/gif";
         const data = {
             url: videoUrl,
             videoTitle: title,
@@ -49,13 +50,13 @@ function App() {
             },
             body: JSON.stringify(data),
         })
-            .then((response) => {
+            .then(response => {
                 console.log(response);
                 return response.json();
             })
-            .then((json) => {
+            .then(json => {
                 console.log(json);
-                window.open(json.downloadUrl, "_blank");
+                window.open(json.body.downloadUrl, "_blank");
                 setLoading(false);
             });
     };
@@ -64,7 +65,8 @@ function App() {
         <div className={s.container}>
             <h1 className={s.header}>Glipher</h1>
             <GetURL setVideoUrl={setVideoUrl} />
-            {videoUrl && (
+
+            {videoUrl ? (
                 <>
                     <div className={s.section}>
                         <div className={s.alignAtOppositeEnds}>
@@ -103,6 +105,16 @@ function App() {
                         {loading ? <Loader /> : "Download GIF"}
                     </button>
                 </>
+            ) : (
+                <div className={s.disclaimer}>
+                    <h3>Alpha Application</h3>
+                    <p>
+                        This app can currently only process 5 minutes video with
+                        about 10-20 seconds of gif, We are currently considering
+                        several solutions toward the long download time and 30
+                        seconds limit of the API Gateway
+                    </p>
+                </div>
             )}
         </div>
     );
