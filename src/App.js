@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import s from "./app.module.scss";
 import Slider from "@material-ui/core/Slider";
 import GetURL from "./components/GetURL/GetURL";
@@ -11,6 +11,12 @@ function App() {
     const [time, setTime] = useState([0, 5]);
     const [max, setMax] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState(null);
+    const [alertClass, setAlertClass] = useState(s.alert);
+
+    useEffect(() => {
+        if (alert) setAlertClass(s.alert + " " + s.active);
+    }, [alert]);
 
     const getVideoId = () => {
         const parts = videoUrl.split("/");
@@ -56,7 +62,7 @@ function App() {
             })
             .then(json => {
                 console.log(json);
-                window.open(json.body.downloadUrl, "_blank");
+                setAlert(json.body.downloadUrl);
                 setLoading(false);
             });
     };
@@ -65,7 +71,9 @@ function App() {
         <div className={s.container}>
             <h1 className={s.header}>Glipher</h1>
             <GetURL setVideoUrl={setVideoUrl} />
-
+            <div className={alertClass}>
+                The file is available at <a href={alert}>{alert}</a>
+            </div>
             {videoUrl ? (
                 <>
                     <div className={s.section}>
@@ -102,7 +110,7 @@ function App() {
                         disabled={loading || time[1] - time[0] > 5 * 60}
                         className={s.download}
                     >
-                        {loading ? <Loader /> : "Download GIF"}
+                        {loading ? <Loader /> : "Create GIF"}
                     </button>
                 </>
             ) : (

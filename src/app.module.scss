@@ -98,3 +98,22 @@
         text-align: center;
     }
 }
+
+.alert {
+    padding: 0.7rem;
+    margin: 1rem 1rem;
+    background: white;
+    border: solid;
+    border-radius: 10px;
+    color: black;
+    font-size: 2rem;
+    display: none;
+    width: 90%;
+    top: 1rem;
+}
+
+.active {
+    position: fixed;
+    z-index: 5;
+    display: block;
+}
