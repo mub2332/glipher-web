@@ -61,7 +61,6 @@ function App() {
 
         socket.onmessage = event => {
             var msg = JSON.parse(event.data);
-            console.log(msg);
 
             if (msg.downloadUrl) {
                 socket.close();
