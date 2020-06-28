@@ -39,32 +39,37 @@ function App() {
 
     const download = () => {
         setLoading(true);
-        const url =
-            "https://a9dqqmewub.execute-api.us-east-1.amazonaws.com/production/gif";
         const data = {
             url: videoUrl,
             videoTitle: title,
             startDuration: time[0],
             endDuration: time[1],
         };
-        fetch(url, {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => {
-                console.log(response);
-                return response.json();
-            })
-            .then(json => {
-                console.log(json);
-                setAlert(json.body.downloadUrl);
+
+        const socket = new WebSocket(
+            "wss://sth4zqzl5e.execute-api.us-east-1.amazonaws.com/dev"
+        );
+
+        socket.onopen = event => {
+            socket.send(
+                JSON.stringify({
+                    action: "createGif",
+                    payload: JSON.stringify(data),
+                })
+            );
+        };
+
+        socket.onmessage = event => {
+            var msg = JSON.parse(event.data);
+            console.log(msg);
+
+            if (msg.downloadUrl) {
+                socket.close();
+                console.log(msg.downloadUrl);
+                setAlert(msg.downloadUrl);
                 setLoading(false);
-            });
+            }
+        };
     };
 
     return (
@@ -115,12 +120,12 @@ function App() {
                 </>
             ) : (
                 <div className={s.disclaimer}>
-                    <h3>Alpha Application</h3>
+                    <h3>Alpha Application (Websocket Solution)</h3>
                     <p>
-                        This app can currently only process 5 minutes video with
-                        about 10-20 seconds of gif, We are currently considering
-                        several solutions toward the long download time and 30
-                        seconds limit of the API Gateway
+                        This app can only effectively process 5 minutes video
+                        with about 15 seconds of gif (Longer videos cause long
+                        wait time), We are currently considering several
+                        solutions toward the long processing time.
                     </p>
                 </div>
             )}
