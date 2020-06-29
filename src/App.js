@@ -4,6 +4,10 @@ import Slider from "@material-ui/core/Slider";
 import GetURL from "./components/GetURL/GetURL";
 import Video from "./components/Video/Video";
 import Loader from "./components/Loader/Loader";
+import Disclaimer from "./components/Disclaimer/Disclaimer";
+import TimeText from "./components/TimeText/TimeText";
+
+import { download, getVideoId } from "./utils/helpers";
 
 function App() {
     const [videoUrl, setVideoUrl] = useState(null);
@@ -18,58 +22,8 @@ function App() {
         if (alert) setAlertClass(s.alert + " " + s.active);
     }, [alert]);
 
-    const getVideoId = () => {
-        const parts = videoUrl.split("/");
-        return parts[parts.length - 1].split("?")[0];
-    };
-
-    const getTimeString = timeInSeconds => {
-        const minutes = Math.floor(timeInSeconds / 60);
-        const seconds = timeInSeconds % 60;
-
-        const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`;
-        const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`;
-
-        return `${minutesString}:${secondsString}`;
-    };
-
     const handleTimeChange = (event, newValue) => {
         setTime(newValue);
-    };
-
-    const download = () => {
-        setLoading(true);
-        const data = {
-            url: videoUrl,
-            videoTitle: title,
-            startDuration: time[0],
-            endDuration: time[1],
-        };
-
-        const socket = new WebSocket(
-            "wss://sth4zqzl5e.execute-api.us-east-1.amazonaws.com/dev"
-        );
-
-        socket.onopen = event => {
-            socket.send(
-                JSON.stringify({
-                    action: "createGif",
-                    payload: JSON.stringify(data),
-                })
-            );
-        };
-
-        socket.onmessage = event => {
-            var msg = JSON.parse(event.data);
-            console.log(msg);
-
-            if (msg.downloadUrl) {
-                socket.close();
-                console.log(msg.downloadUrl);
-                setAlert(msg.downloadUrl);
-                setLoading(false);
-            }
-        };
     };
 
     return (
@@ -82,14 +36,7 @@ function App() {
             {videoUrl ? (
                 <>
                     <div className={s.section}>
-                        <div className={s.alignAtOppositeEnds}>
-                            <span className={s.timeText}>
-                                Start: {getTimeString(time[0])}
-                            </span>
-                            <span className={s.timeText}>
-                                End: {getTimeString(time[1])}
-                            </span>
-                        </div>
+                        <TimeText time={time} />
                         <Slider
                             className={s.slider}
                             min={0}
@@ -108,10 +55,19 @@ function App() {
                         setTitle={setTitle}
                         setVideoUrl={setVideoUrl}
                         url={videoUrl}
-                        videoId={getVideoId()}
+                        videoId={getVideoId(videoUrl)}
                     />
                     <button
-                        onClick={download}
+                        onClick={() =>
+                            download(
+                                videoUrl,
+                                title,
+                                time[0],
+                                time[1],
+                                setLoading,
+                                setAlert
+                            )
+                        }
                         disabled={loading || time[1] - time[0] > 5 * 60}
                         className={s.download}
                     >
@@ -119,15 +75,7 @@ function App() {
                     </button>
                 </>
             ) : (
-                <div className={s.disclaimer}>
-                    <h3>Alpha Application (Websocket Solution)</h3>
-                    <p>
-                        This app can only effectively process 5 minutes video
-                        with about 15 seconds of gif (Longer videos cause long
-                        wait time), We are currently considering several
-                        solutions toward the long processing time.
-                    </p>
-                </div>
+                <Disclaimer />
             )}
         </div>
     );
