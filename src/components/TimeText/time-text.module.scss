@@ -1,0 +1,9 @@
+.alignAtOppositeEnds {
+    display: flex;
+    justify-content: space-between;
+
+    .timeText {
+        color: #fff;
+        font-size: 2rem;
+    }
+}

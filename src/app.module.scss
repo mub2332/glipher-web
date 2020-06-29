@@ -18,16 +18,6 @@
 .section {
     margin-top: 10rem;
     width: 80%;
-
-    .alignAtOppositeEnds {
-        display: flex;
-        justify-content: space-between;
-
-        .timeText {
-            color: #fff;
-            font-size: 2rem;
-        }
-    }
 }
 
 .header {
@@ -80,22 +70,6 @@
     &:disabled {
         background-color: grey;
         color: #000;
-    }
-}
-
-.disclaimer {
-    padding: 16px 0rem 0rem 0rem;
-    display: block;
-    font-size: large;
-    color: white;
-    max-width: 80rem;
-
-    p {
-        padding: 8px 0rem 0rem 0rem;
-    }
-
-    h3 {
-        text-align: center;
     }
 }
 
