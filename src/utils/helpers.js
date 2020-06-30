@@ -1,4 +1,4 @@
-const getTimeString = (timeInSeconds) => {
+const getTimeString = timeInSeconds => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
 
@@ -8,7 +8,7 @@ const getTimeString = (timeInSeconds) => {
     return `${minutesString}:${secondsString}`;
 };
 
-const getVideoId = (videoUrl) => {
+const getVideoId = videoUrl => {
     const parts = videoUrl.split("/");
     return parts[parts.length - 1].split("?")[0].split("&")[0];
 };
@@ -33,7 +33,7 @@ const download = (
         "wss://sth4zqzl5e.execute-api.us-east-1.amazonaws.com/dev"
     );
 
-    socket.onopen = (event) => {
+    socket.onopen = event => {
         socket.send(
             JSON.stringify({
                 action: "createGif",
@@ -42,7 +42,7 @@ const download = (
         );
     };
 
-    socket.onmessage = (event) => {
+    socket.onmessage = event => {
         var msg = JSON.parse(event.data);
 
         if (msg.downloadUrl) {

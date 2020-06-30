@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import s from "./app.module.scss";
 import Slider from "@material-ui/core/Slider";
 import GetURL from "./components/GetURL/GetURL";
@@ -6,6 +6,7 @@ import Video from "./components/Video/Video";
 import Loader from "./components/Loader/Loader";
 import Disclaimer from "./components/Disclaimer/Disclaimer";
 import TimeText from "./components/TimeText/TimeText";
+import Alert from "./components/Alert/Alert";
 
 import { download, getVideoId } from "./utils/helpers";
 
@@ -16,11 +17,6 @@ function App() {
     const [max, setMax] = useState(0);
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState(null);
-    const [alertClass, setAlertClass] = useState(s.alert);
-
-    useEffect(() => {
-        if (alert) setAlertClass(s.alert + " " + s.active);
-    }, [alert]);
 
     const handleTimeChange = (event, newValue) => {
         setTime(newValue);
@@ -30,9 +26,7 @@ function App() {
         <div className={s.container}>
             <h1 className={s.header}>Glipher</h1>
             <GetURL setVideoUrl={setVideoUrl} />
-            <div className={alertClass}>
-                The file is available at <a href={alert}>{alert}</a>
-            </div>
+            <Alert alert={alert} />
             {videoUrl ? (
                 <>
                     <div className={s.section}>
