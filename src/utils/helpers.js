@@ -10,7 +10,7 @@ const getTimeString = (timeInSeconds) => {
 
 const getVideoId = (videoUrl) => {
     const parts = videoUrl.split("/");
-    return parts[parts.length - 1].split("?")[0];
+    return parts[parts.length - 1].split("?")[0].split("&")[0];
 };
 
 const download = (
